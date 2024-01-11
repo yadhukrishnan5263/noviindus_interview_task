@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:noviindus_interview_task/screens/home/homepage.dart';
-import 'package:noviindus_interview_task/screens/login/login.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:noviindus_interview_task/cubit/bus_cubit/bus_cubit.dart';
+import 'package:noviindus_interview_task/cubit/driver_cubit/driver_cubit.dart';
+import 'package:noviindus_interview_task/cubit/login_cubit/login_cubit.dart';
 import 'package:noviindus_interview_task/screens/login/splash%20screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiBlocProvider(providers: [
+    BlocProvider(create: (context) => LoginCubit()),
+    BlocProvider(create: (context) => BusCubit()),
+    BlocProvider(create: (context) => DriverCubit()),
+  ],
+  child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -15,10 +22,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Color(0xff2B2B2B)),
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: const LaunchScreen(),
     );
   }
 }
