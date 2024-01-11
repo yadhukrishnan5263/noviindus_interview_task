@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noviindus_interview_task/cubit/driver_cubit/driver_cubit.dart';
+import 'package:noviindus_interview_task/data/utils/snackbar.dart';
 
 class AddDriver extends StatefulWidget {
   const AddDriver({super.key});
@@ -111,7 +112,15 @@ class _AddDriverState extends State<AddDriver> {
             child: InkWell(
               borderRadius: BorderRadius.circular(10),
               onTap: () {
-                context.read<DriverCubit>().postDriver(name: nameControlller.text, mobile: "9999999999", license_no: LicenseControlller.text, context: context);
+               if(nameControlller.text.isNotEmpty && LicenseControlller.text.isNotEmpty) {
+                  context.read<DriverCubit>().postDriver(
+                      name: nameControlller.text,
+                      mobile: "9999999999",
+                      license_no: LicenseControlller.text,
+                      context: context);
+                }else{
+                 showError(context, "Please Enter Name and License Number");
+               }
               },
               hoverDuration: Duration(milliseconds: 1000),
               splashColor: Colors.grey.shade300,
