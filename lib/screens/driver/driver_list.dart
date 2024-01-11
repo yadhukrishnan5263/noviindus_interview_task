@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:noviindus_interview_task/cubit/driver_cubit/driver_cubit.dart';
 import 'package:noviindus_interview_task/screens/driver/add_driver.dart';
+
+import '../../cubit/bus_cubit/bus_cubit.dart';
 
 class DriverList extends StatefulWidget {
   const DriverList({super.key});
@@ -10,6 +14,13 @@ class DriverList extends StatefulWidget {
 }
 
 class _DriverListState extends State<DriverList> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      context.read<DriverCubit>().getDriverList(context: context);
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
@@ -34,11 +45,17 @@ class _DriverListState extends State<DriverList> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Column(
+          child: BlocConsumer<DriverCubit, DriverState>(
+  listener: (context, state) {
+    // TODO: implement listener
+  },
+  builder: (context, state) {
+    if(state is DriverListLoded){
+    return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                  "21 Drivers Found",
+                  state.driverlist.length.toString()+" Drivers Found",
                   style: TextStyle(
                     fontSize: 13,
                     fontFamily: "Axiforma",
@@ -83,13 +100,13 @@ class _DriverListState extends State<DriverList> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("KSRTC",style: TextStyle(
+                                Text( state.driverlist[index].name,style: TextStyle(
                                   color: Color(0xff474747),
                                   fontSize: 12,overflow: TextOverflow.clip,
 
                                   fontWeight: FontWeight.w500,
 
-                                )), Text("Swift Scania P-​series",style: TextStyle(
+                                )), Text("Licn no: "+state.driverlist[index].licenseNo,style: TextStyle(
                                     fontSize: 12,
                                     color: Color(0xff474747),
                                     fontWeight: FontWeight.w500,
@@ -110,7 +127,7 @@ class _DriverListState extends State<DriverList> {
                               borderRadius: BorderRadius.circular(4),
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(4),
-                                onTap: () {},
+                                onTap: () {context.read<DriverCubit>().deleteDriver(driver_id: state.driverlist[index].id, context: context, driverlist: state.driverlist, index: index);},
                                 hoverDuration: Duration(milliseconds: 1000),
                                 splashColor: Colors.grey.shade300,
                                 overlayColor: MaterialStateProperty.all(Colors.white30),
@@ -131,10 +148,26 @@ class _DriverListState extends State<DriverList> {
                     ),
                   ),
                 ),
-                itemCount: 10,
+                itemCount: state.driverlist.length,
               )
             ],
-          ),
+          );}else if(state is DriverListError){
+            return  Center(
+              child: Text(
+                  "No Drivers Found",
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontFamily: "Axiforma",
+                    color: Color(0xff6B6B6B),
+                    fontWeight: FontWeight.w500,
+                  )
+              ),
+            );
+          }else if(state is DeleteDriver){
+      // context.read<DriverCubit>().getDriverList(context: context);
+    }return Container();
+  },
+),
         ),
 
       ),
@@ -153,7 +186,9 @@ class _DriverListState extends State<DriverList> {
             borderRadius: BorderRadius.circular(10),
             child: InkWell(
               borderRadius: BorderRadius.circular(10),
-              onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddDriver(),));},
+              onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddDriver(),)).then((value) {
+                BlocProvider.of<DriverCubit>(context).getDriverList(context: context);
+              });},
               hoverDuration: Duration(milliseconds: 1000),
               splashColor: Colors.grey.shade300,
               overlayColor: MaterialStateProperty.all(Colors.white30),

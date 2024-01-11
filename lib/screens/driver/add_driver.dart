@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:noviindus_interview_task/cubit/driver_cubit/driver_cubit.dart';
 
 class AddDriver extends StatefulWidget {
   const AddDriver({super.key});
@@ -9,6 +11,8 @@ class AddDriver extends StatefulWidget {
 }
 
 class _AddDriverState extends State<AddDriver> {
+  TextEditingController nameControlller = TextEditingController();
+  TextEditingController LicenseControlller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
@@ -44,6 +48,7 @@ class _AddDriverState extends State<AddDriver> {
                     color: Color(0x192a2a2a)),
                 child: Center(
                   child: TextFormField(
+                    controller: nameControlller,
                     textAlign: TextAlign.center,
                     autofocus: false,
                     decoration: InputDecoration(
@@ -71,6 +76,7 @@ class _AddDriverState extends State<AddDriver> {
                   color: Color(0x192a2a2a)),
               child: Center(
                 child: TextFormField(
+                  controller: LicenseControlller,
                   textAlign: TextAlign.center,
                   autofocus: false,
                   decoration: InputDecoration(
@@ -104,7 +110,9 @@ class _AddDriverState extends State<AddDriver> {
             borderRadius: BorderRadius.circular(10),
             child: InkWell(
               borderRadius: BorderRadius.circular(10),
-              onTap: () {},
+              onTap: () {
+                context.read<DriverCubit>().postDriver(name: nameControlller.text, mobile: "9999999999", license_no: LicenseControlller.text, context: context);
+              },
               hoverDuration: Duration(milliseconds: 1000),
               splashColor: Colors.grey.shade300,
               overlayColor: MaterialStateProperty.all(Colors.white30),

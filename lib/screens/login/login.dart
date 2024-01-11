@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:noviindus_interview_task/cubit/bus_cubit/bus_cubit.dart';
 import 'package:noviindus_interview_task/cubit/login_cubit/login_cubit.dart';
 import 'package:noviindus_interview_task/data/utils/snackbar.dart';
 import 'package:noviindus_interview_task/screens/home/homepage.dart';
@@ -26,7 +27,10 @@ class _LoginPageState extends State<LoginPage> {
           if (state is LoginSuccess) {
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
-                  builder: (context) => HomePage(),
+                  builder: (context) => BlocProvider(
+  create: (context) => BusCubit(),
+  child: HomePage(),
+),
                 ),
                 (route) => false);
           }

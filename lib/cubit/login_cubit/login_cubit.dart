@@ -17,7 +17,7 @@ emit(LoginLoading());
 try{
   await repo.login(username: username, password: password, context: context).then((value) {
     if (value["status"] == true) {
-      apiToken=value['access'];
+      apiToken=value['access_token'];
       showSuccess(context, value["message"]);
       emit(LoginSuccess());
       hideLoading(context);

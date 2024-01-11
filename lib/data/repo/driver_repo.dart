@@ -31,7 +31,7 @@ class DriverRepo {
       "license_no":license_no
     });
     try {
-      Response response = await api.sendRequest.post(ApiEndPoints.DriverApi+"$apiToken/",
+      Response response = await api.sendRequest.post(ApiEndPoints.DriverApi,
           options: Options(contentType: 'multipart/form_data'), data: body);
       if (response.statusCode == 200) {
         return response.data;
@@ -51,7 +51,7 @@ class DriverRepo {
       "driver_id":driver_id
     });
     try {
-      Response response = await api.sendRequest.delete(ApiEndPoints.DriverApi+"$apiToken/",
+      Response response = await api.sendRequest.delete(ApiEndPoints.DriverApi,
           options: Options(contentType: 'multipart/form_data'), data: body);
       if (response.statusCode == 200) {
         return response.data;

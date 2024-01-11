@@ -1,8 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:noviindus_interview_task/screens/driver/driver_list.dart';
+
+import '../../data/model/bus_model.dart';
 
 class BusDetail extends StatefulWidget {
-  const BusDetail({super.key});
+  final BusModel busmodel;
+  final int seating;
+  const BusDetail({super.key, required this.busmodel, required this.seating});
 
   @override
   State<BusDetail> createState() => _BusDetailState();
@@ -20,7 +25,7 @@ class _BusDetailState extends State<BusDetail> {
         centerTitle: true,
        leading: IconButton(icon:Icon(Icons.arrow_back,color: Colors.white) , onPressed: () { Navigator.pop(context); },),
         title: Text(
-          "KSRTC Swift Scania P-series",
+          widget.busmodel.type,
           style: TextStyle(
             fontFamily: "Axiforma",
             color: Colors.white,
@@ -34,45 +39,50 @@ class _BusDetailState extends State<BusDetail> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              Container(
-                  height: h*0.15,
-                  decoration:     BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Color(0xff2a2a2a)),
-                child: Row(
-                  children: [
-                    Container(
-                      width: w*0.55,
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                                "Rohit sharma",
-                                style: TextStyle(
-                                  fontFamily: "Axiforma",
-                                  fontSize:h*0.029,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                )
-                            ),
-                            Text(
-                                "License no: PJ515196161655",
-                                style: TextStyle(
-                                  fontFamily: "Axiforma",
-                                  fontSize: 10,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400,
-                                )
-                            )
-                          ],
+              GestureDetector(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => DriverList(),));
+                },
+                child: Container(
+                    height: h*0.15,
+                    decoration:     BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Color(0xff2a2a2a)),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: w*0.55,
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                  widget.busmodel.driverName,
+                                  style: TextStyle(
+                                    fontFamily: "Axiforma",
+                                    fontSize:h*0.029,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                  )
+                              ),
+                              Text(
+                                  "License no: ${widget.busmodel.driverLicenseNo}",
+                                  style: TextStyle(
+                                    fontFamily: "Axiforma",
+                                    fontSize: 10,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w400,
+                                  )
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    Image(image: AssetImage("assets/driver.png"))
-                  ]
+                      Image(image: AssetImage("assets/driver.png"))
+                    ]
+                  ),
                 ),
               ),
               SizedBox(height: h*0.04,),
@@ -110,7 +120,7 @@ class _BusDetailState extends State<BusDetail> {
                             : SizedBox.shrink();
                       } else {
                         // Check if it's the 2nd column
-                        if (index % 5 == 1) {
+                        if (index % 5 == widget.seating) {
                           return Padding(
                             padding: EdgeInsets.all(4.0),
                             child: SizedBox.shrink(), // Hide the widget

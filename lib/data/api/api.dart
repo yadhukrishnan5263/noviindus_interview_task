@@ -27,8 +27,8 @@ class API {
         onRequest: (RequestOptions options,
             RequestInterceptorHandler requestInterceptorHandler) async {
           final token = apiToken;
-          if (token != null) {
-            options.headers["x-api-key"] = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA1MDE0MTUxLCJpYXQiOjE3MDQ5Mjc3NTEsImp0aSI6IjQ0MzgwMWUxOTMzZTRlN2ViYjk1OWE0M2M2N2Q3MTllIiwidXNlcl9pZCI6MiwiZmlyc3RfbmFtZSI6ImFkbWluX3VzZXIiLCJ1cmxfaWQiOiJXSzRFUkRUIn0.Cu5CYCfwx8SLL2QKkjKQIb8zFDWbGCRkyhvXe6zTpmM";
+          if (token != "") {
+            options.headers["Authorization"] ="Bearer "+token;
           }
           return requestInterceptorHandler.next(options);
         },

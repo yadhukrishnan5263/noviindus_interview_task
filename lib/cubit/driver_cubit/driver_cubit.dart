@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 
+import '../../data/model/driver_model.dart';
 import '../../data/repo/driver_repo.dart';
 import '../../data/utils/loading.dart';
 import '../../data/utils/snackbar.dart';
@@ -16,8 +17,10 @@ class DriverCubit extends Cubit<DriverState> {
     showLoading(context);
     try {
       await repo.getDriver(context: context).then((value) {
+        List data = value["drivers"];
+        List<DriverModel> driverlist =  data.map((e) => DriverModel.fromJson(e)).toList();
         hideLoading(context);
-        emit(DriverListLoded());
+        emit(DriverListLoded(driverlist));
       });
     }catch(e){
       showError(context, "Something went wrong");
@@ -30,8 +33,10 @@ class DriverCubit extends Cubit<DriverState> {
     showLoading(context);
     try {
       await repo.addDriver(name: name,mobile: mobile,license_no: license_no,context: context).then((value) {
+        showSuccess(context, "Driver added successfully");
         hideLoading(context);
-        emit(DriverListLoded());
+        emit(DriverListLoded([]));
+        Navigator.pop(context);
       });
     }catch(e){
       showError(context, "Something went wrong");
@@ -39,14 +44,15 @@ class DriverCubit extends Cubit<DriverState> {
       emit(DriverListError());
     }
   }
-  deleteDriver({required int driver_id,required BuildContext context}) async {
-    emit(DriverListLoading());
+  deleteDriver({required List<DriverModel>driverlist,required int index ,required int driver_id,required BuildContext context}) async {
     showLoading(context);
     try {
-      await repo.deleteDriver(driver_id: driver_id, context: context).then((value) {
-        hideLoading(context);
-        emit(DriverListLoded());
+      await repo.deleteDriver(driver_id: driver_id, context: context).then((value)  {
+        showSuccess(context, "Driver deleted successfully");
+        driverlist.removeAt(index);
+        emit(DriverListLoded(driverlist));
       });
+      hideLoading(context);
     }catch(e){
       showError(context, "Something went wrong");
       hideLoading(context);

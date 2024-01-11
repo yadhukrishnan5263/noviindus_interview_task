@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:noviindus_interview_task/cubit/bus_cubit/bus_cubit.dart';
 import 'package:noviindus_interview_task/screens/bus/bus_details.dart';
 import 'package:noviindus_interview_task/screens/driver/driver_list.dart';
 
@@ -11,6 +13,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      context.read<BusCubit>().getBusList(context: context);
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
@@ -131,17 +141,30 @@ class _HomePageState extends State<HomePage> {
                   )
                 ]),
           ),
-          Padding(
+        BlocConsumer<BusCubit, BusState>(
+        listener: (context, state) {
+      // TODO: implement listener
+    },
+    builder: (context, state) {
+    if(state is BusListLoded){
+         return Padding(
             padding: const EdgeInsets.only(left: 20, bottom: 15),
-            child: Text("21 Buses Found",
+            child: Text(state.buslist.length.toString()+" Buses Found",
                 style: TextStyle(
                   fontSize: 13,
                   color: Color(0xff6B6B6B),
                   fontFamily: "Axiforma",
                   fontWeight: FontWeight.w500,
                 )),
-          ),
-          ListView.builder(
+          );}return Container();}),
+          BlocConsumer<BusCubit, BusState>(
+  listener: (context, state) {
+    // TODO: implement listener
+  },
+  builder: (context, state) {
+    if(state is BusListLoded){
+
+    return ListView.builder(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) => Padding(
@@ -182,14 +205,14 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("KSRTC",
+                        Text(state.buslist[index].name,
                             style: TextStyle(
                               color: Color(0xff474747),
                               fontSize: 12,
                               overflow: TextOverflow.clip,
                               fontWeight: FontWeight.w500,
                             )),
-                        Text("Swift Scania P-​series",
+                        Text(state.buslist[index].type,
                             style: TextStyle(
                                 fontSize: 12,
                                 color: Color(0xff474747),
@@ -212,7 +235,7 @@ class _HomePageState extends State<HomePage> {
                         borderRadius: BorderRadius.circular(4),
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => BusDetail(),
+                            builder: (context) => BusDetail(busmodel: state.buslist[index], seating: state.buslist[index].type=="Ordinary"?1:2,),
                           ));
                         },
                         hoverDuration: Duration(milliseconds: 1000),
@@ -231,8 +254,12 @@ class _HomePageState extends State<HomePage> {
                 ]),
               ),
             ),
-            itemCount: 10,
-          )
+            itemCount: state.buslist.length,
+          );}else if(state is BusListError){
+      Center(child: Text("No Buses",style: TextStyle(fontFamily: "Axiforma"),));
+    }return Container();
+  },
+)
         ]),
       ),
     );
