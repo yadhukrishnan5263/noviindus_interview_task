@@ -18,42 +18,61 @@ class DriverCubit extends Cubit<DriverState> {
     try {
       await repo.getDriver(context: context).then((value) {
         List data = value["drivers"];
-        List<DriverModel> driverlist =  data.map((e) => DriverModel.fromJson(e)).toList();
+        List<DriverModel> driverlist =
+            data.map((e) => DriverModel.fromJson(e)).toList();
         hideLoading(context);
         emit(DriverListLoded(driverlist));
       });
-    }catch(e){
+    } catch (e) {
       showError(context, "Something went wrong");
       hideLoading(context);
       emit(DriverListError());
     }
   }
-  postDriver({required String name,required String mobile,required String license_no,required BuildContext context}) async {
+
+  postDriver(
+      {required String name,
+      required String mobile,
+      required String license_no,
+      required BuildContext context}) async {
     emit(DriverListLoading());
     showLoading(context);
     try {
-      await repo.addDriver(name: name,mobile: mobile,license_no: license_no,context: context).then((value) {
+      await repo
+          .addDriver(
+              name: name,
+              mobile: mobile,
+              license_no: license_no,
+              context: context)
+          .then((value) {
         showSuccess(context, "Driver added successfully");
         hideLoading(context);
         emit(DriverListLoded([]));
         Navigator.pop(context);
       });
-    }catch(e){
+    } catch (e) {
       showError(context, "Something went wrong");
       hideLoading(context);
       emit(DriverListError());
     }
   }
-  deleteDriver({required List<DriverModel>driverlist,required int index ,required int driver_id,required BuildContext context}) async {
+
+  deleteDriver(
+      {required List<DriverModel> driverlist,
+      required int index,
+      required int driver_id,
+      required BuildContext context}) async {
     showLoading(context);
     try {
-      await repo.deleteDriver(driver_id: driver_id, context: context).then((value)  {
+      await repo
+          .deleteDriver(driver_id: driver_id, context: context)
+          .then((value) {
         showSuccess(context, "Driver deleted successfully");
         driverlist.removeAt(index);
         emit(DriverListLoded(driverlist));
       });
       hideLoading(context);
-    }catch(e){
+    } catch (e) {
       showError(context, "Something went wrong");
       hideLoading(context);
       emit(DriverListError());

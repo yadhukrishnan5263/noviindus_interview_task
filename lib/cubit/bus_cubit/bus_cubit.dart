@@ -19,13 +19,12 @@ class BusCubit extends Cubit<BusState> {
     try {
       await repo.getBus(context: context).then((value) {
         List data = value["bus"];
-        List<BusModel> buslist =
-        data.map((e) => BusModel.fromJson(e)).toList();
+        List<BusModel> buslist = data.map((e) => BusModel.fromJson(e)).toList();
 
         hideLoading(context);
         emit(BusListLoded(buslist));
       });
-    }catch(e){
+    } catch (e) {
       showError(context, "Something went wrong");
       hideLoading(context);
       emit(BusListError());

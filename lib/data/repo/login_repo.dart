@@ -8,10 +8,13 @@ import '../utils/snackbar.dart';
 
 class LoginRepo {
   final api = API();
-  Future login({required String username,required String password,required BuildContext context}) async {
+  Future login(
+      {required String username,
+      required String password,
+      required BuildContext context}) async {
     final FormData body = FormData.fromMap({
-      "username":username,
-      "password":password,
+      "username": username,
+      "password": password,
     });
     try {
       Response response = await api.sendRequest.post(ApiEndPoints.LoginApi,

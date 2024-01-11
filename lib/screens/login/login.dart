@@ -28,9 +28,9 @@ class _LoginPageState extends State<LoginPage> {
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (context) => BlocProvider(
-  create: (context) => BusCubit(),
-  child: HomePage(),
-),
+                    create: (context) => BusCubit(),
+                    child: HomePage(),
+                  ),
                 ),
                 (route) => false);
           }
@@ -145,14 +145,16 @@ class _LoginPageState extends State<LoginPage> {
                   child: InkWell(
                     borderRadius: BorderRadius.circular(10),
                     onTap: () {
-                     if(usernameController.text.isNotEmpty&&passwordController.text.isNotEmpty) {
+                      if (usernameController.text.isNotEmpty &&
+                          passwordController.text.isNotEmpty) {
                         context.read<LoginCubit>().login(
                             username: usernameController.text,
                             password: passwordController.text,
                             context: context);
-                      }else{
-                       showError(context, "Please Enter Username and Password");
-                     }
+                      } else {
+                        showError(
+                            context, "Please Enter Username and Password");
+                      }
                     },
                     hoverDuration: Duration(milliseconds: 1000),
                     splashColor: Colors.grey.shade300,

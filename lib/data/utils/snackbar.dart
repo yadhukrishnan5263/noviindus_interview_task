@@ -4,16 +4,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-
 void showError(context, String message) {
   showTopSnackBar(
     Overlay.of(context),
     CustomSnackBar.error(
-
       message: message,
     ),
   );
 }
+
 void showSuccess(context, String message) {
   showTopSnackBar(
     Overlay.of(context),
@@ -22,6 +21,7 @@ void showSuccess(context, String message) {
     ),
   );
 }
+
 class CustomSnackBar extends StatefulWidget {
   const CustomSnackBar.success({
     Key? key,
@@ -41,12 +41,11 @@ class CustomSnackBar extends StatefulWidget {
     this.iconRotationAngle = 32,
     this.iconPositionTop = -10,
     this.iconPositionLeft = -8,
-    this.backgroundColor =  Colors.green,
+    this.backgroundColor = Colors.green,
     this.borderRadius = kDefaultBorderRadius,
     this.textScaleFactor = 1.0,
     this.textAlign = TextAlign.center,
   }) : super(key: key);
-
 
   const CustomSnackBar.error({
     Key? key,
@@ -103,7 +102,6 @@ class CustomSnackBarState extends State<CustomSnackBar> {
       width: double.infinity,
       child: Stack(
         children: [
-
           Center(
             child: Padding(
               padding: widget.messagePadding,
@@ -122,7 +120,5 @@ class CustomSnackBarState extends State<CustomSnackBar> {
     );
   }
 }
-
-
 
 const kDefaultBorderRadius = BorderRadius.all(Radius.circular(12));

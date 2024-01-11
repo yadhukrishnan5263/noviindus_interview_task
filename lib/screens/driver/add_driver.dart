@@ -23,25 +23,57 @@ class _AddDriverState extends State<AddDriver> {
           backgroundColor: Color(0xff2B2B2B),
           toolbarHeight: h * 0.1,
           centerTitle: true,
-          leading: IconButton(icon:Icon(Icons.arrow_back,color: Colors.white) , onPressed: () {  Navigator.pop(context);},),
-          title: Text(
-              "Add Driver",
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          title: Text("Add Driver",
               style: TextStyle(
                 fontFamily: "Axiforma",
                 color: Colors.white,
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
-              )
-          )
-      ),
+              ))),
       body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: 30,),
-            Center(
-              child: Container(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 30,
+              ),
+              Center(
+                child: Container(
+                  height: h * 0.08,
+                  width: w * 0.84,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Color(0x192a2a2a)),
+                  child: Center(
+                    child: TextFormField(
+                      controller: nameControlller,
+                      textAlign: TextAlign.center,
+                      autofocus: false,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Enter Name",
+                        hintStyle: TextStyle(
+                          fontSize: 15,
+                          color: Color(0xff707070),
+                          fontWeight: FontWeight.w500,
+                          fontFamily: "Axiforma",
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: h * 0.03,
+              ),
+              Container(
                 height: h * 0.08,
                 width: w * 0.84,
                 decoration: BoxDecoration(
@@ -49,12 +81,12 @@ class _AddDriverState extends State<AddDriver> {
                     color: Color(0x192a2a2a)),
                 child: Center(
                   child: TextFormField(
-                    controller: nameControlller,
+                    controller: LicenseControlller,
                     textAlign: TextAlign.center,
                     autofocus: false,
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: "Enter Name",
+                      hintText: "Enter License Number",
                       hintStyle: TextStyle(
                         fontSize: 15,
                         color: Color(0xff707070),
@@ -65,43 +97,14 @@ class _AddDriverState extends State<AddDriver> {
                   ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: h * 0.03,
-            ),
-            Container(
-              height: h * 0.08,
-              width: w * 0.84,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Color(0x192a2a2a)),
-              child: Center(
-                child: TextFormField(
-                  controller: LicenseControlller,
-                  textAlign: TextAlign.center,
-                  autofocus: false,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: "Enter License Number",
-                    hintStyle: TextStyle(
-                      fontSize: 15,
-                      color: Color(0xff707070),
-                      fontWeight: FontWeight.w500,
-                      fontFamily: "Axiforma",
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ]
-        ),
+            ]),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 20),
         child: Container(
-          height: h*0.07,
-          width:w*0.84,
+          height: h * 0.07,
+          width: w * 0.84,
           decoration: BoxDecoration(
             color: Color(0xffFC153B),
             borderRadius: BorderRadius.circular(10),
@@ -112,32 +115,31 @@ class _AddDriverState extends State<AddDriver> {
             child: InkWell(
               borderRadius: BorderRadius.circular(10),
               onTap: () {
-               if(nameControlller.text.isNotEmpty && LicenseControlller.text.isNotEmpty) {
+                if (nameControlller.text.isNotEmpty &&
+                    LicenseControlller.text.isNotEmpty) {
                   context.read<DriverCubit>().postDriver(
                       name: nameControlller.text,
                       mobile: "9999999999",
                       license_no: LicenseControlller.text,
                       context: context);
-                }else{
-                 showError(context, "Please Enter Name and License Number");
-               }
+                } else {
+                  showError(context, "Please Enter Name and License Number");
+                }
               },
               hoverDuration: Duration(milliseconds: 1000),
               splashColor: Colors.grey.shade300,
               overlayColor: MaterialStateProperty.all(Colors.white30),
               child: Center(
-                  child: Text(
-                      "Save",
+                  child: Text("Save",
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.white,
                         fontWeight: FontWeight.w500,
-                      )
-                  )),
+                      ))),
             ),
           ),
         ),
-      ) ,
+      ),
     );
   }
 }

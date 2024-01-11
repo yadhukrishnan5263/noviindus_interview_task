@@ -17,6 +17,7 @@ showLoading(context) {
     },
   );
 }
+
 hideLoading(context) {
   Navigator.of(context).pop();
 }

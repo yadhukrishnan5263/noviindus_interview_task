@@ -6,7 +6,7 @@ import '../api/api_endpoints.dart';
 import '../api/api_exceptions.dart';
 import '../utils/snackbar.dart';
 
-class BusRepo{
+class BusRepo {
   final api = API();
 
   Future getBus({required BuildContext context}) async {
@@ -21,5 +21,6 @@ class BusRepo{
       return Future.error(errorMessage);
     } catch (exception) {
       showError(context, exception.toString());
-
-}}}
+    }
+  }
+}

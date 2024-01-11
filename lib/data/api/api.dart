@@ -1,10 +1,7 @@
-
 import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:noviindus_interview_task/cubit/login_cubit/login_cubit.dart';
-
-
 
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'api_endpoints.dart';
@@ -18,7 +15,6 @@ class API {
         error: true,
         responseBody: true,
         responseHeader: true,
-        
         requestHeader: true,
         requestBody: true,
         request: true));
@@ -28,7 +24,7 @@ class API {
             RequestInterceptorHandler requestInterceptorHandler) async {
           final token = apiToken;
           if (token != "") {
-            options.headers["Authorization"] ="Bearer "+token;
+            options.headers["Authorization"] = "Bearer " + token;
           }
           return requestInterceptorHandler.next(options);
         },

@@ -36,11 +36,14 @@ class LaunchScreen extends StatelessWidget {
                   child: InkWell(
                     borderRadius: BorderRadius.circular(10),
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage(),));
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => LoginPage(),
+                      ));
                     },
                     hoverDuration: Duration(milliseconds: 1000),
                     splashColor: Colors.grey.shade300,
-                    overlayColor: MaterialStateProperty.all(Color(0xffFC153B).withOpacity(0.5)),
+                    overlayColor: MaterialStateProperty.all(
+                        Color(0xffFC153B).withOpacity(0.5)),
                     child: Center(
                         child: Text("Get Started",
                             style: TextStyle(

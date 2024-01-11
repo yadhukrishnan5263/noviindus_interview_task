@@ -10,8 +10,7 @@ void main() {
     BlocProvider(create: (context) => LoginCubit()),
     BlocProvider(create: (context) => BusCubit()),
     BlocProvider(create: (context) => DriverCubit()),
-  ],
-  child: const MyApp()));
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -28,6 +27,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
-
